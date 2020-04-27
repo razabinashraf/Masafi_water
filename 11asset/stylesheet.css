@@ -58,6 +58,7 @@ a{
 
 section{
   height: 82%;
+  outline: 1px solid yellow;
 }
 .container{
   margin: 0;
@@ -73,6 +74,7 @@ section{
   justify-content: center;
   height: 100%;
   width: 100%;
+  outline: 1px solid yellow;
 }
 .login--icon{
   width: 75%;
