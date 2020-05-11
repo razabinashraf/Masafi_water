@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['driver'])){
+if (!isset($_SESSION['user'])){
   die("NOT LOGGED IN");
 }
 
@@ -22,11 +22,11 @@ if (!isset($_SESSION['driver'])){
 <main>
 <header>
     <div class="header--heading">
-        Masafi Water - Driver Portal
+        Masafi Water - Admin Portal
     </div>
     <nav>
         <div class="nav--user-toggle">
-            <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['driver']); ?></div>
+            <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['user']); ?></div>
         </div>
     </nav>
 </header>
@@ -48,10 +48,8 @@ if (!isset($_SESSION['driver'])){
         </li>
     </ul>
     <p>
-      <a href="logout.php">Logout</a> |
-      <a href="report.php">Report</a> |
-      <a href="add_customer.php">Add Customer</a> |
-      <a href="transactions.php">Transactions</a>
+      <a href="add.php">Add New</a> |
+      <a href="logout.php">Logout</a>
     </p>
 </div>
 </div>

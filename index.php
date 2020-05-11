@@ -3,16 +3,16 @@
 session_start();
 require_once "pdo.php";
 if ((isset($_POST['username'])) && (isset($_POST['password'])))
-{print_r($_POST);
+{
   $sql = ("SELECT name, password FROM pass_driver WHERE name = :name AND password =:pass");
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(
       ':name' => $_POST['username'],
       ':pass' => md5($_POST['password'])));
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  var_dump($_POST);
+
   if ( $row == true ) {
-   $_SESSION['user'] = $_POST['username'];
+   $_SESSION['driver'] = $_POST['username'];
    header('Location: agent_portal.php');
    return;
   }
@@ -56,7 +56,7 @@ if ((isset($_POST['username'])) && (isset($_POST['password'])))
     ?>
     <nav>
         <div class="nav--user-toggle">
-            <a href="index.php" class="active"><div class="nav--user-toggle-link">AGENT</div></a>
+            <a href="index.php" class="active"><div class="nav--user-toggle-link">DRIVER</div></a>
             <a href="index_admin.php"><div class="nav--user-toggle-link">ADMIN</div></a>
         </div>
     </nav>
