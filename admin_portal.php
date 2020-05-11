@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])){
+  die("NOT LOGGED IN");
+}
+
+ ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +22,11 @@
 <main>
 <header>
     <div class="header--heading">
-        Masafi Water
+        Masafi Water - Admin Portal
     </div>
     <nav>
         <div class="nav--user-toggle">
-            <div class="nav--user-toggle-info">You have loged in as ADMIN</div>
+            <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['user']); ?></div>
         </div>
     </nav>
 </header>
@@ -38,6 +47,10 @@
             <div><p>Transaction</p></div>
         </li>
     </ul>
+    <p>
+      <a href="add.php">Add New</a> |
+      <a href="logout.php">Logout</a>
+    </p>
 </div>
 </div>
 </section>
