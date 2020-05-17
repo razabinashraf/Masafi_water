@@ -24,6 +24,19 @@ if (!isset($_SESSION['driver'])){
     <div class="header--heading">
         Masafi Water - Driver Portal
     </div>
+    <?php
+
+    if ( isset($_SESSION['success']) ) {
+
+        echo('<p style="color: red;">'.htmlentities($_SESSION['success'])."</p>\n");
+        unset($_SESSION['success']);
+    }
+    if ( isset($_SESSION['error']) ) {
+
+        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+        unset($_SESSION['error']);
+    }
+    ?>
     <nav>
         <div class="nav--user-toggle">
             <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['driver']); ?></div>
@@ -51,6 +64,7 @@ if (!isset($_SESSION['driver'])){
       <a href="logout.php">Logout</a> |
       <a href="report.php">Report</a> |
       <a href="add_customer.php">Add Customer</a> |
+      <a href="view_customer.php">View Customer</a> |
       <a href="transactions.php">Transactions</a>
     </p>
 </div>

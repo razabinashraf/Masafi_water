@@ -2,23 +2,29 @@
 
 session_start();
 require_once "pdo.php";
+if (isset($_SESSION['admin'])) {
+  header('Location: admin_portal.php');
+  return;
+}
+
 if ((isset($_POST['username'])) && (isset($_POST['password'])))
 {
- $sql = ("SELECT name, password FROM pass_admin WHERE name = :name AND password =:pass");
+ $sql = ("SELECT username, password,name,admin_id FROM pass_admin WHERE username = :username AND password =:pass");
  $stmt = $pdo->prepare($sql);
  $stmt->execute(array(
-     ':name' => $_POST['username'],
+     ':username' => $_POST['username'],
      ':pass' => md5($_POST['password'])));
  $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
  if ( $row == true ) {
-  $_SESSION['user'] = $_POST['username'];
+  $_SESSION['admin'] = $row['name'];
+  $_SESSION['admin_id'] = $row['admin_id'];
   header('Location: admin_portal.php');
   return;
  }
  else {
    $_SESSION['error'] = 'Invalid Credentials';
-   header('Location: index.php');
+   header('Location: index_admin.php');
    return;
  }
 }
@@ -56,7 +62,7 @@ if ((isset($_POST['username'])) && (isset($_POST['password'])))
     ?>
     <nav>
         <div class="nav--user-toggle">
-            <a href="index.php"><div class="nav--user-toggle-link">AGENT</div></a>
+            <a href="index.php"><div class="nav--user-toggle-link">DRIVER</div></a>
             <a href="index_admin.php" class="active"><div class="nav--user-toggle-link">ADMIN</div></a>
         </div>
     </nav>
@@ -69,7 +75,7 @@ if ((isset($_POST['username'])) && (isset($_POST['password'])))
     </div>
     <form method="post">
         <div class="login--input"><input class="login--input-types" type="text" placeholder="Admin Id" id="username" name="username" required></div>
-        <div class="login--input"><input class="login--input-types" type="password" placeholder="password" id="password" name="password" required></div>
+        <div class="login--input"><input class="login--input-types" type="password" placeholder="Password" id="password" name="password" required></div>
         <div class="login--input"><button class="login--input-types" id="submit" name="submit">Submit</button></div>
     </form>
 </div>

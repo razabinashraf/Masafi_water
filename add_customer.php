@@ -1,44 +1,44 @@
 <?php
 session_start();
 require_once "pdo.php";
-if ( !isset($_SESSION["account"]) ) {
+if ((!isset($_SESSION['driver'])) && (!isset($_SESSION['admin']))) {
     die("ACCESS DENIED");
 }
 if ( isset($_POST['cancel']) ) {
     header('Location: index.php');
     return;
 }
-if ((isset($_POST['year'])) && (isset($_POST['mileage'])) && (isset($_POST['make'])) && (isset($_POST['model'])))
+if ((isset($_POST['mobile'])) && (isset($_POST['iqama'])) && (isset($_POST['name'])) && (isset($_POST['email'])))
 {
-        if (((strlen($_POST['make']))<1) || ((strlen($_POST['model']))<1)
-              || ((strlen($_POST['year']))<1) || ((strlen($_POST['mileage']))<1)) {
+        if (((strlen($_POST['name']))<1) || ((strlen($_POST['email']))<1)
+              || ((strlen($_POST['mobile']))<1) || ((strlen($_POST['iqama']))<1)) {
           $_SESSION['error'] = 'All fields are required';
-          header('Location: add.php');
+          header('Location: add_customer.php');
           return;
         }
-        if (!is_numeric($_POST['year'])){
-          $_SESSION['error'] = 'Year must be an integer';
-          header('Location: add.php');
+        if (!is_numeric($_POST['mobile'])){
+          $_SESSION['error'] = 'mobile must be an integer';
+          header('Location: add_customer.php');
           return;
         }
-        if (!is_numeric($_POST['mileage'])){
-          $_SESSION['error'] = 'Mileage must be an integer';
-          header('Location: add.php');
+        if (!is_numeric($_POST['iqama'])){
+          $_SESSION['error'] = 'iqama must be an integer';
+          header('Location: add_customer.php');
           return;
         }
 
 
-            $sql = "INSERT INTO autos (make,model,year,mileage)
-                      VALUES (:make, :model, :year, :mileage)";
-            ##echo ("<pre>\n".$sql."\n</pre>\n");
+            $sql = "INSERT INTO customer (name,email,mobile,iqama,rem_bottles)
+                      VALUES (:name, :email, :mobile, :iqama, :rem_bottles)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(
-                ':make'=>$_POST['make'],
-                ':model'=>$_POST['model'],
-                ':year'=>$_POST['year'],
-                ':mileage'=>$_POST['mileage']));
+                ':name'=>$_POST['name'],
+                ':email'=>$_POST['email'],
+                ':mobile'=>$_POST['mobile'],
+                ':rem_bottles'=>0,
+                ':iqama'=>$_POST['iqama']));
             $_SESSION['success'] = "Record added";
-            header('Location: index.php');
+            header('Location: agent_portal.php');
             return;
 
 }
@@ -56,7 +56,7 @@ if ((isset($_POST['year'])) && (isset($_POST['mileage'])) && (isset($_POST['make
 </head>
 <div class="container">
 <body>
-<h1>Tracking data for <?php echo(htmlentities($_SESSION['account'])) ?></h1>
+<h1>Tracking data for <?php echo(htmlentities((isset($_SESSION['driver'])) ? $_SESSION['driver'] : $_SESSION['admin'])); ?></h1>
 <?php
 // Note triple not equals and think how badly double
 // not equals would work here...
@@ -72,18 +72,16 @@ if ( isset($_SESSION['error']) ) {
 }
 ?>
 <form method="POST"><br/><br/>
-<label for="make">Make</label>
-<input type="text" name="make" id="make"><br/>
-<label for="model">Model</label>
-<input type="text" name="model" id="model"><br/>
-<label for="year">Year</label>
-<input type="text" name="year" id="year"><br/>
-<label for="mileage">Mileage</label>
-<input type="text" name="mileage" id="mileage"><br/>
+<label for="name">Name</label>
+<input type="text" name="name" id="name"><br/>
+<label for="email">email</label>
+<input type="text" name="email" id="email"><br/>
+<label for="mobile">mobile</label>
+<input type="text" name="mobile" id="mobile"><br/>
+<label for="iqama">iqama</label>
+<input type="text" name="iqama" id="iqama"><br/>
 <input type="submit" value="Add">
 <input type="submit" name="cancel" value="cancel">
 </form>
-
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 </body>

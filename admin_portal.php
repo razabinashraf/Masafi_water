@@ -1,6 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])){
+if (isset($_SESSION['driver'])){
+  if (!isset($_SESSION['admin']))
+  die("YOU DONOT HAVE THE PRIVILAGE TO BE HERE - TRY LOGGING IN AS ADMIN");
+}
+if (!isset($_SESSION['admin'])) {
   die("NOT LOGGED IN");
 }
 
@@ -26,8 +30,21 @@ if (!isset($_SESSION['user'])){
     </div>
     <nav>
         <div class="nav--user-toggle">
-            <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['user']); ?></div>
+            <div class="nav--user-toggle-info">You have logged in as <?php echo($_SESSION['admin']); ?></div>
         </div>
+        <?php
+
+        if ( isset($_SESSION['success']) ) {
+
+            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            unset($_SESSION['success']);
+        }
+        if ( isset($_SESSION['error']) ) {
+
+            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            unset($_SESSION['error']);
+        }
+        ?>
     </nav>
 </header>
 <section>
@@ -48,8 +65,13 @@ if (!isset($_SESSION['user'])){
         </li>
     </ul>
     <p>
-      <a href="add.php">Add New</a> |
-      <a href="logout.php">Logout</a>
+      <a href="logout.php">Logout</a> |
+      <a href="report.php">Report</a> |
+      <a href="add_customer.php">Add Customer</a> |
+      <a href="add_user.php">Add User</a> |
+      <a href="view_customer.php">View Customer</a> |
+      <a href="view_user.php">View Users</a> |
+      <a href="transactions.php">Transactions</a>
     </p>
 </div>
 </div>
